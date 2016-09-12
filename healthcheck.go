@@ -51,24 +51,17 @@ func main() {
 		resp.Body.Close()
 	}
 
-	var isDown = false
 	var numberOfErrors = 0
-
 	for i := range checks {
 		if checks[i].Error != "" || checks[i].ResponseTime > 10*time.Second {
 			numberOfErrors++
 			if numberOfErrors > 1 {
-				isDown = true
+				log.Println("HappyHours funktioniert nicht! Aaaaaaa!!!")
+				notify(`{"text":"HappyHours funktioniert nicht! Aaaaaaa!!!...."}`)
 				break
 			}
 		}
 	}
-
-	if isDown {
-		log.Println("HappyHours funktioniert nicht! Aaaaaaa!!!")
-		notify(`{"text":"HappyHours funktioniert nicht! Aaaaaaa!!!...."}`)
-	}
-
 }
 
 func notify(jsonStr string) {

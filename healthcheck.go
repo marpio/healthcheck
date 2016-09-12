@@ -66,7 +66,7 @@ func main() {
 
 	if isDown {
 		log.Println("HappyHours funktioniert nicht! Aaaaaaa!!!")
-		// notify(`{"text":"HappyHours funktioniert nicht! Aaaaaaa!!!...."}`)
+		notify(`{"text":"HappyHours funktioniert nicht! Aaaaaaa!!!...."}`)
 	}
 
 }

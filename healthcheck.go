@@ -12,13 +12,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type attempt struct {
-	ResponseTime time.Duration
-	Error        string
-}
-
-type attempts []attempt
-
 func main() {
 	f, err := os.OpenFile("healthcheck.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
@@ -56,8 +49,8 @@ func main() {
 		if checks[i].Error != "" || checks[i].ResponseTime > 10*time.Second {
 			numberOfErrors++
 			if numberOfErrors > 1 {
-				log.Println("HappyHours funktioniert nicht! Aaaaaaa!!!")
-				notify(`{"text":"HappyHours funktioniert nicht! Aaaaaaa!!!...."}`)
+				log.Println(os.Getenv("ERROR_MSG"))
+				notify(`{"text":"` + os.Getenv("ERROR_MSG") + `"}`)
 				break
 			}
 		}
@@ -76,6 +69,13 @@ func notify(jsonStr string) {
 	}
 	defer resp.Body.Close()
 }
+
+type attempt struct {
+	ResponseTime time.Duration
+	Error        string
+}
+
+type attempts []attempt
 
 var defaultHTTPClient = &http.Client{
 	Transport: &http.Transport{
